@@ -16,18 +16,6 @@
 	</form>
 	<hr>
 	<form method="POST" action="<?php echo base_url('graph/chart'); ?>">
-		<div class="mb-2">
-			<label for="date" class="form-label">
-				<b>Choose the date</b>
-			</label>
-			<input type="month" class="form-control" id="date" name="date" min="2018-03" value="2018-05">
-		</div>
-		<div class="mb-2">
-			<label for="company" class="form-label">
-				<b>Choose the company</b>
-			</label>
-			<input type="text" class="form-control" id="company" name="company" disabled>
-		</div>
-		<button type="submit" class="btn btn-primary">Submit</button>
+		<button type="submit" class="btn btn-primary">Charts</button>
 	</form>
 </div>

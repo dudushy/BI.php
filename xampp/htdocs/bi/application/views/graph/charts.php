@@ -40,8 +40,7 @@
 					var obj = JSON.parse(data);
 					console.log(obj);
 
-					var dados = obj['data'];
-					console.log(dados);
+					console.log(obj['data']);
 
 					am5.ready(function() {
 						// Create root element
@@ -198,8 +197,7 @@
 					var obj = JSON.parse(data);
 					console.log(obj);
 
-					var dados = obj['data'];
-					console.log(dados);
+					console.log(obj['data']);
 
 					am5.ready(function() {
 						// Create root element
@@ -356,8 +354,7 @@
 					var obj = JSON.parse(data);
 					console.log(obj);
 
-					var dados = obj['data'];
-					console.log(dados);
+					console.log(obj['data']);
 
 					am5.ready(function() {
 						// Create root element
@@ -540,17 +537,34 @@
 				</nav>
 			</header>
 			<div class="col-md-12">
-				<h1>CHARTS</h1>
-				<?php //var_dump($charts); ?>
-				<a class="btn btn-primary" onclick="genISO_one()" >
-					Gerar ISO 1
-				</a>
-				<a class="btn btn-primary" onclick="genISO_two()" >
-					Gerar ISO 2
-				</a>
-				<a class="btn btn-primary" onclick="genISO_three()" >
-					Gerar ISO 3
-				</a>
+				<div id="filters">
+					<label for="date" class="form-label">
+						<b>Data</b>
+					</label>
+					<input type="month" class="form-control" id="date" name="date" min="2018-03" value="2018-05">
+					
+					<label for="date" class="form-label">
+						<b>Grupo:</b>
+					</label>
+					<input disabled type="text" class="form-control" id="group" name="group">
+
+					<label for="date" class="form-label">
+						<b>Empresa</b>
+					</label>
+					<input disabled type="text" class="form-control" id="company" name="company">
+				</div>
+				<div>
+					<a class="btn btn-primary" onclick="genISO_one()" >
+						Gerar ISO 1
+					</a>
+					<a class="btn btn-primary" onclick="genISO_two()" >
+						Gerar ISO 2
+					</a>
+					<a class="btn btn-primary" onclick="genISO_three()" >
+						Gerar ISO 3
+					</a>
+				</div>
+
 				<!-- HTML -->
 				<div id="iso_one"></div>
 				<div id="iso_two"></div>

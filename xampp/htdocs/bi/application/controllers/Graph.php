@@ -11,8 +11,6 @@ class Graph extends CI_Controller {
 	public function index() {
 		$data['content'] = 'graph/index';
 
-		var_dump(json_decode(file_get_contents("ignore/help.json"), true));
-
 		$this->load->view('model', $data);
 	}
 
@@ -57,13 +55,6 @@ class Graph extends CI_Controller {
 
 	public function chart() {
 		$data = $this->input->post();
-
-		list($ano, $mes) = explode("-", $data['date']);
-		echo "ano: " . $ano;
-		echo " | mes: " . $mes;
-		//$company = $data['company'];
-
-		$data['charts'] = $this->Model_Graph->getISO_one($ano, $mes);
 
 		$this->load->view('graph/charts', $data);
 	}
