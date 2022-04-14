@@ -32,8 +32,7 @@ class Graph extends CI_Controller {
 				// echo "<br><hr>";
 
 				$data['auth'] = $this->Model_Graph->login($username, $password, $jsonToken['data']['token']);
-				$data['content'] = 'graph/charts';
-				$this->load->view('model', $data);
+				$this->load->view('graph/charts', $data);
 
 				// echo "token: " . $jsonToken['data']['token'] . "<br>";
 				// var_dump($auth);

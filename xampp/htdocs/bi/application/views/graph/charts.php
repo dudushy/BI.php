@@ -10,14 +10,20 @@
 		<!-- Styles -->
 
 		<style>
+			#filters {
+				float: left;
+			}
+
 			#iso_one {
 				width: 100%;
 				height: 400px;
 			}
+
 			#iso_two {
 				width: 100%;
 				height: 400px;
 			}
+
 			#iso_three {
 				width: 100%;
 				height: 400px;
@@ -32,15 +38,24 @@
 		<!-- Chart code -->
 		<script>
 			$(document).ready(function () {
-				//genISO_one();
+				//test()
 			});
 
 			function genISO_one() {
-				$.post('<?php echo base_url(); ?>Graph/getISO_one/2022/2', function (data) {
+				var inputs = {
+					"ano": document.getElementById("date").value.split("-")[0],
+					"mes": document.getElementById("date").value.split("-")[1]
+				};
+				
+				console.log(inputs);
+				
+				$.post('<?php echo base_url(); ?>Graph/getISO_one/' + inputs['ano'] + '/' + inputs['mes'], function (data) {
 					var obj = JSON.parse(data);
 					console.log(obj);
 
 					console.log(obj['data']);
+
+					test(obj['data']);
 
 					am5.ready(function() {
 						// Create root element
@@ -193,7 +208,15 @@
 			}
 
 			function genISO_two() {
-				$.post('<?php echo base_url(); ?>Graph/getISO_two/2022/2/90', function (data) {
+				var inputs = {
+					"ano": document.getElementById("date").value.split("-")[0],
+					"mes": document.getElementById("date").value.split("-")[1],
+					"grupo_id": document.getElementById("grupo_id").value
+				};
+				
+				console.log(inputs);
+
+				$.post('<?php echo base_url(); ?>Graph/getISO_two/' + inputs['ano'] + '/' + inputs['mes'] + '/' + inputs['grupo_id'], function (data) {
 					var obj = JSON.parse(data);
 					console.log(obj);
 
@@ -350,7 +373,16 @@
 			}
 
 			function genISO_three() {
-				$.post('<?php echo base_url(); ?>Graph/getISO_three/2022/2/90/152', function (data) {
+				var inputs = {
+					"ano": document.getElementById("date").value.split("-")[0],
+					"mes": document.getElementById("date").value.split("-")[1],
+					"grupo_id": document.getElementById("grupo_id").value,
+					"empresa_id": document.getElementById("empresa_id").value
+				};
+				
+				console.log(inputs);
+
+				$.post('<?php echo base_url(); ?>Graph/getISO_three/' + inputs['ano'] + '/' + inputs['mes'] + '/' + inputs['grupo_id'] + '/' + inputs['empresa_id'], function (data) {
 					var obj = JSON.parse(data);
 					console.log(obj);
 
@@ -505,6 +537,21 @@
 					}); // end am5.ready()
 				});
 			}
+
+			function test(input) {
+				console.log(input);
+
+				for (let item = 0; item < input.length; item++) {
+					console.log(item);
+					console.log(input[item]['id_grupo'] + ' | ' + input[item]['nome_grupo']);
+
+					var select = document.querySelector('#select-groups');
+					let option = document.createElement('option');
+					option.value = input[item]['id_grupo'];
+					option.innerHTML = input[item]['nome_grupo'];
+					select.appendChild(option);
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -515,9 +562,11 @@
 						<a class="navbar-brand" href="<?php echo base_url(''); ?>">
 							BI.php
 						</a>
+
 						<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="navbar-toggler-icon"></span>
 						</button>
+
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 								<li class="nav-item">
@@ -526,8 +575,10 @@
 									</a>
 								</li>
 							</ul>
+
 							<form class="d-flex">
 								<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+								
 								<button class="btn btn-outline-success" type="submit">
 									Search
 								</button>
@@ -536,42 +587,64 @@
 					</div>
 				</nav>
 			</header>
+
 			<div class="col-md-12">
 				<div id="filters">
 					<label for="date" class="form-label">
-						<b>Data</b>
+						<center>
+							<b>Data</b>
+						</center>
 					</label>
-					<input type="month" class="form-control" id="date" name="date" min="2018-03" value="2018-05">
+					<input type="month" class="form-control" id="date" name="date" min="2018-03" value="2022-02">
 					
-					<label for="date" class="form-label">
-						<b>Grupo:</b>
+					<label for="grupo_id" class="form-label">
+						<center>
+							<b>Grupo</b>
+						</center>
 					</label>
-					<input disabled type="text" class="form-control" id="group" name="group">
+					<input type="text" class="form-control" id="grupo_id" name="grupo_id" value="90">
 
-					<label for="date" class="form-label">
-						<b>Empresa</b>
+					<label for="empresa_id" class="form-label">
+						<center>
+							<b>Empresa</b>
+						</center>
 					</label>
-					<input disabled type="text" class="form-control" id="company" name="company">
+					<input type="text" class="form-control" id="empresa_id" name="empresa_id" value="152">
 				</div>
+
 				<div>
 					<a class="btn btn-primary" onclick="genISO_one()" >
 						Gerar ISO 1
 					</a>
+
 					<a class="btn btn-primary" onclick="genISO_two()" >
 						Gerar ISO 2
 					</a>
+
 					<a class="btn btn-primary" onclick="genISO_three()" >
 						Gerar ISO 3
 					</a>
 				</div>
 
+				<br>
+
+				<div>
+					<select id="select-groups">
+						<option value="">--</option>
+					</select>
+				</div>
+				
 				<!-- HTML -->
 				<div id="iso_one"></div>
+
 				<div id="iso_two"></div>
+
 				<div id="iso_three"></div>
 			</div>
+
 			<footer>
 				<hr style="border-top: 10px solid">
+
 				<center>
 					&copy; 2022 | All Rights Reserved
 				</center>
