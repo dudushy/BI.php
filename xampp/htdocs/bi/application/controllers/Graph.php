@@ -43,20 +43,27 @@ class Graph extends CI_Controller {
 		}
 	}
 
-	public function getChart($year, $month, $company) {
-		echo $this->Model_Graph->getChart($year, $month, 0);
+	public function getISO_one($ano, $mes) {
+		echo $this->Model_Graph->getISO_one($ano, $mes);
+	}
+
+	public function getISO_two($ano, $mes, $grupo_id) {
+		echo $this->Model_Graph->getISO_two($ano, $mes, $grupo_id);
+	}
+
+	public function getISO_three($ano, $mes, $grupo_id, $empresa_id) {
+		echo $this->Model_Graph->getISO_three($ano, $mes, $grupo_id, $empresa_id);
 	}
 
 	public function chart() {
 		$data = $this->input->post();
-		var_dump($data);
 
-		list($year, $month) = explode("-", $data['date']);
-		echo "<br>year: " . $year;
-		echo " | month: " . $month;
+		list($ano, $mes) = explode("-", $data['date']);
+		echo "ano: " . $ano;
+		echo " | mes: " . $mes;
 		//$company = $data['company'];
 
-		$data['charts'] = $this->Model_Graph->getChart($year, $month, 0);
+		$data['charts'] = $this->Model_Graph->getISO_one($ano, $mes);
 
 		$this->load->view('graph/charts', $data);
 	}

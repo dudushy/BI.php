@@ -72,16 +72,68 @@ class Model_Graph extends CI_Model {
 		return $result;
 	}
 
-	public function getChart($year, $month, $company) {
+	public function getISO_one($ano, $mes) {
 		$url = json_decode(file_get_contents("ignore/help.json"), true);
-		$url = $url['api_url']['iso'];
+		$url = $url['api_url']['iso_graph'];
 
 		$token = json_decode(file_get_contents("ignore/help.json"), true);
 		$token = $token['profile']['token'];
 
 		$ch = curl_init();
 
-		$getUrl = $url . "?cadastro_id=" . 603 . "&ano=" . $year . "&mes=" . $month;
+		$getUrl = $url . "?cadastro_id=" . 10649 . "&ano=" . $ano . "&mes=" . $mes;
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_URL, $getUrl);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 80);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			'Content-Type: application/json',
+			'Authorization: Bearer ' . $token
+		));
+		
+		$result = curl_exec($ch);
+		curl_close($ch);
+		
+		return $result;
+	}
+
+	public function getISO_two($ano, $mes, $grupo_id) {
+		$url = json_decode(file_get_contents("ignore/help.json"), true);
+		$url = $url['api_url']['iso_companies'];
+
+		$token = json_decode(file_get_contents("ignore/help.json"), true);
+		$token = $token['profile']['token'];
+
+		$ch = curl_init();
+
+		$getUrl = $url . "?cadastro_id=" . 10649 . "&ano=" . $ano . "&mes=" . $mes . "&grupo_id=" . $grupo_id;
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_URL, $getUrl);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 80);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			'Content-Type: application/json',
+			'Authorization: Bearer ' . $token
+		));
+		
+		$result = curl_exec($ch);
+		curl_close($ch);
+		
+		return $result;
+	}
+
+	public function getISO_three($ano, $mes, $grupo_id, $empresa_id) {
+		$url = json_decode(file_get_contents("ignore/help.json"), true);
+		$url = $url['api_url']['iso_process'];
+
+		$token = json_decode(file_get_contents("ignore/help.json"), true);
+		$token = $token['profile']['token'];
+
+		$ch = curl_init();
+
+		$getUrl = $url . "?cadastro_id=" . 10649 . "&ano=" . $ano . "&mes=" . $mes . "&grupo_id=" . $grupo_id . "&empresa_id=" . $empresa_id;
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
