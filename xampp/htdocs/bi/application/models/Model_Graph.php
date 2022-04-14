@@ -9,7 +9,8 @@ class Model_Graph extends CI_Model {
 
 	public function getToken($username, $password) {
 		/* API URL */
-		$url = '';
+		$url = json_decode(file_get_contents("ignore/help.json"), true);
+		$url = $url['api_url']['auth'];
 
 		/* Init cURL resource */
 		$ch = curl_init($url);
@@ -40,7 +41,8 @@ class Model_Graph extends CI_Model {
 
 	public function login($username, $password, $token) {
 		/* API URL */
-		$url = '';
+		$url = json_decode(file_get_contents("ignore/help.json"), true);
+		$url = $url['api_url']['login'];
 
 		/* Init cURL resource */
 		$ch = curl_init($url);
@@ -71,8 +73,11 @@ class Model_Graph extends CI_Model {
 	}
 
 	public function getChart($year, $month, $company) {
-		$url = '';
-		$token = '';
+		$url = json_decode(file_get_contents("ignore/help.json"), true);
+		$url = $url['api_url']['iso'];
+
+		$token = json_decode(file_get_contents("ignore/help.json"), true);
+		$token = $token['profile']['token'];
 
 		$ch = curl_init();
 

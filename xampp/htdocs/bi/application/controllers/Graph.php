@@ -10,6 +10,9 @@ class Graph extends CI_Controller {
 
 	public function index() {
 		$data['content'] = 'graph/index';
+
+		var_dump(json_decode(file_get_contents("ignore/help.json"), true));
+
 		$this->load->view('model', $data);
 	}
 
