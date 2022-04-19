@@ -41,15 +41,33 @@ class Graph extends CI_Controller {
 	}
 
 	public function getISO_one($ano, $mes) {
-		echo $this->Model_Graph->getISO_one($ano, $mes);
+		$response = $this->Model_Graph->getISO_one($ano, $mes);
+		echo $response;
+		$this->saveGroup(json_decode($response));
 	}
 
 	public function getISO_two($ano, $mes, $grupo_id) {
-		echo $this->Model_Graph->getISO_two($ano, $mes, $grupo_id);
+		$response = $this->Model_Graph->getISO_two($ano, $mes, $grupo_id);
+		echo $response;
+		//$this->saveCompany(json_decode($response), $grupo_id);
 	}
 
 	public function getISO_three($ano, $mes, $grupo_id, $empresa_id) {
-		echo $this->Model_Graph->getISO_three($ano, $mes, $grupo_id, $empresa_id);
+		$response = $this->Model_Graph->getISO_three($ano, $mes, $grupo_id, $empresa_id);
+		echo $response;
+	}
+
+	public function saveGroup($response){
+		$grp_id = $response['data']['id_grupo'];
+		$grp_name = $response['data']['nome_grupo'];
+		$grp_total_companies = $response['data']['total_empresas'];
+		$this->Model_Graph->createGroup($grp_id, $grp_name, $grp_total_companies);
+	}
+
+	public function saveCompany($response, $grp_id){
+		$com_id = $response['data']['empresa_id'];
+		$com_name = $response['data']['razao_social'];
+		$this->Model_Graph->createCompany($com_id, $com_name, $grp_id);
 	}
 
 	public function chart() {

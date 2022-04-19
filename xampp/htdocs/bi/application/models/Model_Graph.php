@@ -149,4 +149,24 @@ class Model_Graph extends CI_Model {
 		
 		return $result;
 	}
+
+	public function createGroup($grp_id, $grp_name, $grp_total_companies){
+		$object = array(
+			'grp_id' => $grp_id,
+			'grp_name' => $grp_name,
+			'grp_total_companies' => $grp_total_companies
+		);
+
+		$this->db->insert('tb_group', $object);
+	}
+
+	public function createCompany($com_id, $com_name, $grp_id){
+		$object = array(
+			'com_id' => $com_id,
+			'com_name' => $com_name,
+			'grp_id' => $grp_id
+		);
+
+		$this->db->insert('tb_company', $object);
+	}
 }

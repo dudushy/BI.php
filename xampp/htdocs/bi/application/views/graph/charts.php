@@ -8,24 +8,27 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
 		<!-- Styles -->
-
 		<style>
-			#filters {
+			/* #filters {
 				float: left;
-			}
+			} */
+
+			/* #charts {
+				float: right;
+			} */
 
 			#iso_one {
-				width: 100%;
+				width: 50%;
 				height: 400px;
 			}
 
 			#iso_two {
-				width: 100%;
+				width: 50%;
 				height: 400px;
 			}
 
 			#iso_three {
-				width: 100%;
+				width: 50%;
 				height: 400px;
 			}
 		</style>
@@ -41,7 +44,7 @@
 				//test()
 			});
 
-			function genISO_one() {
+			function generateISO_one() {
 				var inputs = {
 					"ano": document.getElementById("date").value.split("-")[0],
 					"mes": document.getElementById("date").value.split("-")[1]
@@ -50,12 +53,14 @@
 				console.log(inputs);
 				
 				$.post('<?php echo base_url(); ?>Graph/getISO_one/' + inputs['ano'] + '/' + inputs['mes'], function (data) {
+					//console.log(data);
 					var obj = JSON.parse(data);
 					console.log(obj);
-
 					console.log(obj['data']);
 
-					test(obj['data']);
+					generateGroups(obj['data']);
+
+					window.groups = obj;
 
 					am5.ready(function() {
 						// Create root element
@@ -207,11 +212,11 @@
 				});
 			}
 
-			function genISO_two() {
+			function generateISO_two() {
 				var inputs = {
 					"ano": document.getElementById("date").value.split("-")[0],
 					"mes": document.getElementById("date").value.split("-")[1],
-					"grupo_id": document.getElementById("grupo_id").value
+					"grupo_id": document.getElementById("select-groups").value
 				};
 				
 				console.log(inputs);
@@ -219,8 +224,11 @@
 				$.post('<?php echo base_url(); ?>Graph/getISO_two/' + inputs['ano'] + '/' + inputs['mes'] + '/' + inputs['grupo_id'], function (data) {
 					var obj = JSON.parse(data);
 					console.log(obj);
-
 					console.log(obj['data']);
+
+					generateCompanies(obj['data']);
+
+					window.companies = obj;
 
 					am5.ready(function() {
 						// Create root element
@@ -372,12 +380,12 @@
 				});
 			}
 
-			function genISO_three() {
+			function generateISO_three() {
 				var inputs = {
 					"ano": document.getElementById("date").value.split("-")[0],
 					"mes": document.getElementById("date").value.split("-")[1],
-					"grupo_id": document.getElementById("grupo_id").value,
-					"empresa_id": document.getElementById("empresa_id").value
+					"grupo_id": document.getElementById("select-groups").value,
+					"empresa_id": document.getElementById("select-companies").value
 				};
 				
 				console.log(inputs);
@@ -538,7 +546,7 @@
 				});
 			}
 
-			function test(input) {
+			function generateGroups(input) {
 				console.log(input);
 
 				for (let item = 0; item < input.length; item++) {
@@ -549,6 +557,21 @@
 					let option = document.createElement('option');
 					option.value = input[item]['id_grupo'];
 					option.innerHTML = input[item]['nome_grupo'];
+					select.appendChild(option);
+				}
+			}
+
+			function generateCompanies(input) {
+				console.log(input);
+
+				for (let item = 0; item < input.length; item++) {
+					console.log(item);
+					console.log(input[item]['empresa_id'] + ' | ' + input[item]['razao_social']);
+
+					var select = document.querySelector('#select-companies');
+					let option = document.createElement('option');
+					option.value = input[item]['empresa_id'];
+					option.innerHTML = input[item]['razao_social'];
 					select.appendChild(option);
 				}
 			}
@@ -596,50 +619,45 @@
 						</center>
 					</label>
 					<input type="month" class="form-control" id="date" name="date" min="2018-03" value="2022-02">
-					
+					<a class="btn btn-primary" onclick="generateISO_one()" >
+						Gerar ISO 1
+					</a>
+					<br><br>
+
 					<label for="grupo_id" class="form-label">
 						<center>
 							<b>Grupo</b>
 						</center>
 					</label>
-					<input type="text" class="form-control" id="grupo_id" name="grupo_id" value="90">
+					<select id="select-groups" class="form-select">
+						<option value="">--</option>
+					</select>
+					<a class="btn btn-primary" onclick="generateISO_two()" >
+						Gerar ISO 2
+					</a>
+					<br><br>
 
 					<label for="empresa_id" class="form-label">
 						<center>
 							<b>Empresa</b>
 						</center>
 					</label>
-					<input type="text" class="form-control" id="empresa_id" name="empresa_id" value="152">
-				</div>
-
-				<div>
-					<a class="btn btn-primary" onclick="genISO_one()" >
-						Gerar ISO 1
-					</a>
-
-					<a class="btn btn-primary" onclick="genISO_two()" >
-						Gerar ISO 2
-					</a>
-
-					<a class="btn btn-primary" onclick="genISO_three()" >
+					<select id="select-companies" class="form-select">
+						<option value="">--</option>
+					</select>
+					<a class="btn btn-primary" onclick="generateISO_three()" >
 						Gerar ISO 3
 					</a>
+					<br><br>
 				</div>
 
 				<br>
-
-				<div>
-					<select id="select-groups">
-						<option value="">--</option>
-					</select>
-				</div>
 				
-				<!-- HTML -->
-				<div id="iso_one"></div>
-
-				<div id="iso_two"></div>
-
-				<div id="iso_three"></div>
+				<div id="charts" class="container-fluid">
+					<div id="iso_one"></div>
+					<div id="iso_two"></div>
+					<div id="iso_three"></div>
+				</div>
 			</div>
 
 			<footer>
