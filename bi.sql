@@ -34,7 +34,8 @@ USE `bi` ;
 
 CREATE TABLE `tb_company` (
   `com_id` int(11) NOT NULL,
-  `com_name` varchar(400) NOT NULL
+  `com_name` varchar(400) NOT NULL,
+  `com_group` int(11) NOT NULL -- foreign key?
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
