@@ -21,6 +21,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `bi`
 --
+
 CREATE SCHEMA IF NOT EXISTS `bi` DEFAULT CHARACTER SET utf8 ;
 USE `bi` ;
 
@@ -28,15 +29,23 @@ USE `bi` ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_user`
+-- Table structure for table `tb_company`
 --
 
-CREATE TABLE `tb_user` (
-  `usr_id` int(11) NOT NULL,
-  `usr_username` varchar(150) NOT NULL,
-  `usr_password` varchar(150) NOT NULL,
-  `usr_token` varchar(150) NOT NULL,
-  `usr_token_expire_in` varchar(150) NOT NULL
+CREATE TABLE `tb_company` (
+  `com_id` int(11) NOT NULL,
+  `com_name` varchar(400) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_group`
+--
+
+CREATE TABLE `tb_group` (
+  `grp_id` int(11) NOT NULL,
+  `grp_name` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -44,20 +53,16 @@ CREATE TABLE `tb_user` (
 --
 
 --
--- Indexes for table `tb_user`
+-- Indexes for table `tb_company`
 --
-ALTER TABLE `tb_user`
-  ADD PRIMARY KEY (`usr_id`);
+ALTER TABLE `tb_company`
+  ADD PRIMARY KEY (`com_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- Indexes for table `tb_group`
 --
-
---
--- AUTO_INCREMENT for table `tb_user`
---
-ALTER TABLE `tb_user`
-  MODIFY `usr_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tb_group`
+  ADD PRIMARY KEY (`grp_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
