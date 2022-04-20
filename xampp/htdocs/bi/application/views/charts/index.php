@@ -19,7 +19,7 @@
 
 	<hr>
 
-	<form method="POST" action="<?php echo base_url('graph/chart'); ?>">
+	<form method="POST" action="<?php echo base_url('iso/chart'); ?>">
 		<button type="submit" class="btn btn-primary">Charts</button>
 	</form>
 </div>

@@ -1,10 +1,48 @@
 <?php
 
-class Model_Graph extends CI_Model {
+class Model_ISO extends CI_Model {
 
 	function __construct() {
 		parent::__construct();
 		$this->load->database();
+	}
+
+	public function readISO_groups() { // NOT READY
+		$query = $this->db->query("SELECT * FROM tb_iso_groups");
+		return $query->result();
+	}
+
+	public function createISO_groups(){ // NOT READY
+		$url = json_decode(file_get_contents("ignore/help.json"), true);
+		$url = $url['api_url']['iso_groups'];
+
+		$token = json_decode(file_get_contents("ignore/help.json"), true);
+		$token = $token['profile']['token'];
+
+		$ch = curl_init();
+
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 80);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			'Content-Type: application/json',
+			'Authorization: Bearer ' . $token
+		));
+		
+		$result = json_decode(curl_exec($ch));
+		curl_close($ch);
+		
+		foreach($result->data->companies as $iso){
+			$arrayData = array(
+				'com_id' => $iso->value,
+				'com_name' => $iso->title,
+				'com_cnpj' => $iso->cnpj
+			);
+			
+			$this->db->insert('tb_iso', $arrayData);
+		}
 	}
 
 	public function getToken($username, $password) {
@@ -148,25 +186,5 @@ class Model_Graph extends CI_Model {
 		curl_close($ch);
 		
 		return $result;
-	}
-
-	public function createGroup($grp_id, $grp_name, $grp_total_companies){
-		$object = array(
-			'grp_id' => $grp_id,
-			'grp_name' => $grp_name,
-			'grp_total_companies' => $grp_total_companies
-		);
-
-		$this->db->insert('tb_group', $object);
-	}
-
-	public function createCompany($com_id, $com_name, $grp_id){
-		$object = array(
-			'com_id' => $com_id,
-			'com_name' => $com_name,
-			'grp_id' => $grp_id
-		);
-
-		$this->db->insert('tb_company', $object);
 	}
 }

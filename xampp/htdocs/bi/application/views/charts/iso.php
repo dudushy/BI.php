@@ -20,17 +20,24 @@
 			#iso_one {
 				width: 50%;
 				height: 400px;
+				float: left;
 			}
 
 			#iso_two {
-				width: 50%;
+				width: 25%;
 				height: 400px;
+				float: left;
 			}
 
 			#iso_three {
 				width: 50%;
 				height: 400px;
+				float: left;
 			}
+
+			/* .footer {
+				float: below;
+			} */
 		</style>
 
 		<!-- Resources -->
@@ -44,7 +51,13 @@
 				//test()
 			});
 
-			function generateISO_one() {
+			function sleep(ms) {
+				return new Promise(
+					resolve => setTimeout(resolve, ms)
+				);
+			}
+
+			async function generateISO_one() {
 				var inputs = {
 					"ano": document.getElementById("date").value.split("-")[0],
 					"mes": document.getElementById("date").value.split("-")[1]
@@ -52,7 +65,7 @@
 				
 				console.log(inputs);
 				
-				$.post('<?php echo base_url(); ?>Graph/getISO_one/' + inputs['ano'] + '/' + inputs['mes'], function (data) {
+				$.post('<?php echo base_url(); ?>ISO/getISO_one/' + inputs['ano'] + '/' + inputs['mes'], function (data) {
 					//console.log(data);
 					var obj = JSON.parse(data);
 					console.log(obj);
@@ -210,9 +223,13 @@
 
 					}); // end am5.ready()
 				});
+
+				await sleep(2000);
+				document.getElementById("select-groups").disabled = false;
+				document.getElementById("btnGenISO_two").disabled = false;
 			}
 
-			function generateISO_two() {
+			async function generateISO_two() {
 				var inputs = {
 					"ano": document.getElementById("date").value.split("-")[0],
 					"mes": document.getElementById("date").value.split("-")[1],
@@ -221,7 +238,7 @@
 				
 				console.log(inputs);
 
-				$.post('<?php echo base_url(); ?>Graph/getISO_two/' + inputs['ano'] + '/' + inputs['mes'] + '/' + inputs['grupo_id'], function (data) {
+				$.post('<?php echo base_url(); ?>ISO/getISO_two/' + inputs['ano'] + '/' + inputs['mes'] + '/' + inputs['grupo_id'], function (data) {
 					var obj = JSON.parse(data);
 					console.log(obj);
 					console.log(obj['data']);
@@ -378,6 +395,10 @@
 
 					}); // end am5.ready()
 				});
+
+				await sleep(2000);
+				document.getElementById("select-companies").disabled = false;
+				document.getElementById("btnGenISO_three").disabled = false;
 			}
 
 			function generateISO_three() {
@@ -390,7 +411,7 @@
 				
 				console.log(inputs);
 
-				$.post('<?php echo base_url(); ?>Graph/getISO_three/' + inputs['ano'] + '/' + inputs['mes'] + '/' + inputs['grupo_id'] + '/' + inputs['empresa_id'], function (data) {
+				$.post('<?php echo base_url(); ?>ISO/getISO_three/' + inputs['ano'] + '/' + inputs['mes'] + '/' + inputs['grupo_id'] + '/' + inputs['empresa_id'], function (data) {
 					var obj = JSON.parse(data);
 					console.log(obj);
 
@@ -619,9 +640,9 @@
 						</center>
 					</label>
 					<input type="month" class="form-control" id="date" name="date" min="2018-03" value="2022-02">
-					<a class="btn btn-primary" onclick="generateISO_one()" >
+					<button class="btn btn-primary" onclick="generateISO_one()">
 						Gerar ISO 1
-					</a>
+					</button>
 					<br><br>
 
 					<label for="grupo_id" class="form-label">
@@ -629,12 +650,12 @@
 							<b>Grupo</b>
 						</center>
 					</label>
-					<select id="select-groups" class="form-select">
+					<select id="select-groups" class="form-select" disabled>
 						<option value="">--</option>
 					</select>
-					<a class="btn btn-primary" onclick="generateISO_two()" >
+					<button id="btnGenISO_two" class="btn btn-primary" onclick="generateISO_two()" disabled>
 						Gerar ISO 2
-					</a>
+					</button>
 					<br><br>
 
 					<label for="empresa_id" class="form-label">
@@ -642,12 +663,12 @@
 							<b>Empresa</b>
 						</center>
 					</label>
-					<select id="select-companies" class="form-select">
+					<select id="select-companies" class="form-select" disabled>
 						<option value="">--</option>
 					</select>
-					<a class="btn btn-primary" onclick="generateISO_three()" >
+					<button id="btnGenISO_three" class="btn btn-primary" onclick="generateISO_three()" disabled>
 						Gerar ISO 3
-					</a>
+					</button>
 					<br><br>
 				</div>
 
