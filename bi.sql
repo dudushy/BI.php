@@ -6,7 +6,6 @@ USE `bi` ;
 CREATE TABLE `bi`.`tb_group`(
   `grp_id` INT NOT NULL,
   `grp_name` VARCHAR(400) NOT NULL,
-  `grp_total_companies` INT NOT NULL,
   PRIMARY KEY (`grp_id`)
 ) ENGINE = InnoDB;
 
