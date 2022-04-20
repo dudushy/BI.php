@@ -112,7 +112,7 @@ class Model_ISO extends CI_Model {
 
 	public function getISO_one($ano, $mes) {
 		$url = json_decode(file_get_contents("ignore/help.json"), true);
-		$url = $url['api_url']['iso_graph'];
+		$url = $url['api_url']['iso_groups'];
 
 		$token = json_decode(file_get_contents("ignore/help.json"), true);
 		$token = $token['profile']['token'];
