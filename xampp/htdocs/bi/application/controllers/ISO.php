@@ -14,6 +14,14 @@ class ISO extends CI_Controller {
 		$this->load->view('charts/iso', $data);
 	}
 
+	public function readAll(){
+		var_dump($this->Model_ISO->readGroups());
+		echo "<hr>";
+		var_dump($this->Model_ISO->readCompanies());
+		echo "<hr>";
+		var_dump($this->Model_ISO->readProcess());
+	}
+
 	public function createGroups($ano, $mes){
 		$this->Model_ISO->createGroups($ano, $mes);
 	}
