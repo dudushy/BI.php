@@ -17,19 +17,19 @@
 				float: right;
 			} */
 
-			#iso_one {
+			#iso_groups {
 				width: 50%;
 				height: 400px;
 				float: left;
 			}
 
-			#iso_two {
+			#iso_companies {
 				width: 25%;
 				height: 400px;
 				float: left;
 			}
 
-			#iso_three {
+			#iso_process {
 				width: 50%;
 				height: 400px;
 				float: left;
@@ -57,7 +57,7 @@
 				);
 			}
 
-			async function generateISO_one() {
+			async function generateGroups() {
 				var inputs = {
 					"ano": document.getElementById("date").value.split("-")[0],
 					"mes": document.getElementById("date").value.split("-")[1]
@@ -65,20 +65,20 @@
 				
 				console.log(inputs);
 				
-				$.post('<?php echo base_url(); ?>ISO/getISO_one/' + inputs['ano'] + '/' + inputs['mes'], function (data) {
+				$.post('<?php echo base_url(); ?>ISO/getGroups/' + inputs['ano'] + '/' + inputs['mes'], function (data) {
 					//console.log(data);
 					var obj = JSON.parse(data);
 					console.log(obj);
 					console.log(obj['data']);
 
-					generateGroups(obj['data']);
+					generateComboGroups(obj['data']);
 
 					window.groups = obj;
 
 					am5.ready(function() {
 						// Create root element
 						// https://www.amcharts.com/docs/v5/getting-started/#Root_element
-						var root = am5.Root.new("iso_one");
+						var root = am5.Root.new("iso_groups");
 
 						// Set themes
 						// https://www.amcharts.com/docs/v5/concepts/themes/
@@ -226,10 +226,10 @@
 
 				await sleep(2000);
 				document.getElementById("select-groups").disabled = false;
-				document.getElementById("btnGenISO_two").disabled = false;
+				document.getElementById("btnGenCompanies").disabled = false;
 			}
 
-			async function generateISO_two() {
+			async function generateCompanies() {
 				var inputs = {
 					"ano": document.getElementById("date").value.split("-")[0],
 					"mes": document.getElementById("date").value.split("-")[1],
@@ -238,19 +238,19 @@
 				
 				console.log(inputs);
 
-				$.post('<?php echo base_url(); ?>ISO/getISO_two/' + inputs['ano'] + '/' + inputs['mes'] + '/' + inputs['grupo_id'], function (data) {
+				$.post('<?php echo base_url(); ?>ISO/getCompanies/' + inputs['ano'] + '/' + inputs['mes'] + '/' + inputs['grupo_id'], function (data) {
 					var obj = JSON.parse(data);
 					console.log(obj);
 					console.log(obj['data']);
 
-					generateCompanies(obj['data']);
+					generateComboCompanies(obj['data']);
 
 					window.companies = obj;
 
 					am5.ready(function() {
 						// Create root element
 						// https://www.amcharts.com/docs/v5/getting-started/#Root_element
-						var root = am5.Root.new("iso_two");
+						var root = am5.Root.new("iso_companies");
 
 						// Set themes
 						// https://www.amcharts.com/docs/v5/concepts/themes/
@@ -398,10 +398,10 @@
 
 				await sleep(2000);
 				document.getElementById("select-companies").disabled = false;
-				document.getElementById("btnGenISO_three").disabled = false;
+				document.getElementById("btnGenProcess").disabled = false;
 			}
 
-			function generateISO_three() {
+			function generateProcess() {
 				var inputs = {
 					"ano": document.getElementById("date").value.split("-")[0],
 					"mes": document.getElementById("date").value.split("-")[1],
@@ -411,7 +411,7 @@
 				
 				console.log(inputs);
 
-				$.post('<?php echo base_url(); ?>ISO/getISO_three/' + inputs['ano'] + '/' + inputs['mes'] + '/' + inputs['grupo_id'] + '/' + inputs['empresa_id'], function (data) {
+				$.post('<?php echo base_url(); ?>ISO/getProcess/' + inputs['ano'] + '/' + inputs['mes'] + '/' + inputs['grupo_id'] + '/' + inputs['empresa_id'], function (data) {
 					var obj = JSON.parse(data);
 					console.log(obj);
 
@@ -420,7 +420,7 @@
 					am5.ready(function() {
 						// Create root element
 						// https://www.amcharts.com/docs/v5/getting-started/#Root_element
-						var root = am5.Root.new("iso_three");
+						var root = am5.Root.new("iso_process");
 
 						// Set themes
 						// https://www.amcharts.com/docs/v5/concepts/themes/
@@ -567,7 +567,7 @@
 				});
 			}
 
-			function generateGroups(input) {
+			function generateComboGroups(input) {
 				console.log(input);
 
 				for (let item = 0; item < input.length; item++) {
@@ -582,7 +582,7 @@
 				}
 			}
 
-			function generateCompanies(input) {
+			function generateComboCompanies(input) {
 				console.log(input);
 
 				for (let item = 0; item < input.length; item++) {
@@ -640,8 +640,8 @@
 						</center>
 					</label>
 					<input type="month" class="form-control" id="date" name="date" min="2018-03" value="2022-02">
-					<button class="btn btn-primary" onclick="generateISO_one()">
-						Gerar ISO 1
+					<button class="btn btn-primary" onclick="generateGroups()">
+						Gerar ISO Groups
 					</button>
 					<br><br>
 
@@ -653,8 +653,8 @@
 					<select id="select-groups" class="form-select" disabled>
 						<option value="">--</option>
 					</select>
-					<button id="btnGenISO_two" class="btn btn-primary" onclick="generateISO_two()" disabled>
-						Gerar ISO 2
+					<button id="btnGenCompanies" class="btn btn-primary" onclick="generateCompanies()" disabled>
+						Gerar ISO Companies
 					</button>
 					<br><br>
 
@@ -666,8 +666,8 @@
 					<select id="select-companies" class="form-select" disabled>
 						<option value="">--</option>
 					</select>
-					<button id="btnGenISO_three" class="btn btn-primary" onclick="generateISO_three()" disabled>
-						Gerar ISO 3
+					<button id="btnGenProcess" class="btn btn-primary" onclick="generateProcess()" disabled>
+						Gerar ISO Process
 					</button>
 					<br><br>
 				</div>
@@ -675,9 +675,9 @@
 				<br>
 				
 				<div id="charts" class="container-fluid">
-					<div id="iso_one"></div>
-					<div id="iso_two"></div>
-					<div id="iso_three"></div>
+					<div id="iso_groups"></div>
+					<div id="iso_companies"></div>
+					<div id="iso_process"></div>
 				</div>
 			</div>
 

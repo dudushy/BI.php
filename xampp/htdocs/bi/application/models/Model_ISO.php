@@ -7,17 +7,18 @@ class Model_ISO extends CI_Model {
 		$this->load->database();
 	}
 
-	public function readISO_groups() { // NOT READY
+	public function readGroups() { // NOT READY
 		$query = $this->db->query("SELECT * FROM tb_iso_groups");
 		return $query->result();
 	}
 
-	public function createISO_groups(){ // NOT READY
-		$url = json_decode(file_get_contents("ignore/help.json"), true);
-		$url = $url['api_url']['iso_groups'];
+	public function createGroups($ano, $mes){ // NOT READY
+		$token = json_decode(file_get_contents("ignore/help.json"), true)['profile']['token'];
 
-		$token = json_decode(file_get_contents("ignore/help.json"), true);
-		$token = $token['profile']['token'];
+		$url = json_decode(file_get_contents("ignore/help.json"), true)['api_url']['iso_groups'];
+		$cadastro_id = json_decode(file_get_contents("ignore/help.json"), true)['profile']['id'];
+
+		$finalUrl = $url . "?cadastro_id=" . $cadastro_id . "&ano=" . $ano . "&mes=" . $mes;
 
 		$ch = curl_init();
 
@@ -34,21 +35,23 @@ class Model_ISO extends CI_Model {
 		$result = json_decode(curl_exec($ch));
 		curl_close($ch);
 		
-		foreach($result->data->companies as $iso){
+		foreach($result->data as $iso_groups){
 			$arrayData = array(
-				'com_id' => $iso->value,
-				'com_name' => $iso->title,
-				'com_cnpj' => $iso->cnpj
+				'grp_id' => $iso_groups->id_grupo,
+				'grp_name' => $iso_groups->nome_grupo,
+				'total_companies' => $iso_groups->total_empresas,
+				'value' => $iso_groups->valor,
+				'year' => $ano,
+				'month' => $mes
 			);
 			
-			$this->db->insert('tb_iso', $arrayData);
+			$this->db->insert('tb_iso_groups', $arrayData);
 		}
 	}
 
 	public function getToken($username, $password) {
 		/* API URL */
-		$url = json_decode(file_get_contents("ignore/help.json"), true);
-		$url = $url['api_url']['auth'];
+		$url = json_decode(file_get_contents("ignore/help.json"), true)['api_url']['auth'];
 
 		/* Init cURL resource */
 		$ch = curl_init($url);
@@ -79,8 +82,7 @@ class Model_ISO extends CI_Model {
 
 	public function login($username, $password, $token) {
 		/* API URL */
-		$url = json_decode(file_get_contents("ignore/help.json"), true);
-		$url = $url['api_url']['login'];
+		$url = json_decode(file_get_contents("ignore/help.json"), true)['api_url']['login'];
 
 		/* Init cURL resource */
 		$ch = curl_init($url);
@@ -110,20 +112,20 @@ class Model_ISO extends CI_Model {
 		return $result;
 	}
 
-	public function getISO_one($ano, $mes) {
-		$url = json_decode(file_get_contents("ignore/help.json"), true);
-		$url = $url['api_url']['iso_groups'];
+	public function getGroups($ano, $mes) {
+		$token = json_decode(file_get_contents("ignore/help.json"), true)['profile']['token'];
 
-		$token = json_decode(file_get_contents("ignore/help.json"), true);
-		$token = $token['profile']['token'];
+		$url = json_decode(file_get_contents("ignore/help.json"), true)['api_url']['iso_groups'];
+		$cadastro_id = json_decode(file_get_contents("ignore/help.json"), true)['profile']['id'];
+
+		$finalUrl = $url . "?cadastro_id=" . $cadastro_id . "&ano=" . $ano . "&mes=" . $mes;
 
 		$ch = curl_init();
 
-		$getUrl = $url . "?cadastro_id=" . 10649 . "&ano=" . $ano . "&mes=" . $mes;
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($ch, CURLOPT_URL, $getUrl);
+		curl_setopt($ch, CURLOPT_URL, $finalUrl);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 80);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 			'Content-Type: application/json',
@@ -136,20 +138,20 @@ class Model_ISO extends CI_Model {
 		return $result;
 	}
 
-	public function getISO_two($ano, $mes, $grupo_id) {
-		$url = json_decode(file_get_contents("ignore/help.json"), true);
-		$url = $url['api_url']['iso_companies'];
+	public function getCompanies($ano, $mes, $grupo_id) {
+		$token = json_decode(file_get_contents("ignore/help.json"), true)['profile']['token'];
 
-		$token = json_decode(file_get_contents("ignore/help.json"), true);
-		$token = $token['profile']['token'];
+		$url = json_decode(file_get_contents("ignore/help.json"), true)['api_url']['iso_companies'];
+		$cadastro_id = json_decode(file_get_contents("ignore/help.json"), true)['profile']['id'];
+
+		$finalUrl = $url . "?cadastro_id=" . $cadastro_id . "&ano=" . $ano . "&mes=" . $mes . "&grupo_id=" . $grupo_id;
 
 		$ch = curl_init();
 
-		$getUrl = $url . "?cadastro_id=" . 10649 . "&ano=" . $ano . "&mes=" . $mes . "&grupo_id=" . $grupo_id;
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($ch, CURLOPT_URL, $getUrl);
+		curl_setopt($ch, CURLOPT_URL, $finalUrl);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 80);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 			'Content-Type: application/json',
@@ -162,20 +164,20 @@ class Model_ISO extends CI_Model {
 		return $result;
 	}
 
-	public function getISO_three($ano, $mes, $grupo_id, $empresa_id) {
-		$url = json_decode(file_get_contents("ignore/help.json"), true);
-		$url = $url['api_url']['iso_process'];
+	public function getProcess($ano, $mes, $grupo_id, $empresa_id) {
+		$token = json_decode(file_get_contents("ignore/help.json"), true)['profile']['token'];
 
-		$token = json_decode(file_get_contents("ignore/help.json"), true);
-		$token = $token['profile']['token'];
+		$url = json_decode(file_get_contents("ignore/help.json"), true)['api_url']['iso_process'];
+		$cadastro_id = json_decode(file_get_contents("ignore/help.json"), true)['profile']['id'];
+
+		$finalUrl = $url . "?cadastro_id=" . $cadastro_id . "&ano=" . $ano . "&mes=" . $mes . "&grupo_id=" . $grupo_id . "&empresa_id=" . $empresa_id;
 
 		$ch = curl_init();
 
-		$getUrl = $url . "?cadastro_id=" . 10649 . "&ano=" . $ano . "&mes=" . $mes . "&grupo_id=" . $grupo_id . "&empresa_id=" . $empresa_id;
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($ch, CURLOPT_URL, $getUrl);
+		curl_setopt($ch, CURLOPT_URL, $finalUrl);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 80);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 			'Content-Type: application/json',

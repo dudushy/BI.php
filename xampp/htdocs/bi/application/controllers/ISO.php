@@ -54,20 +54,20 @@ class ISO extends CI_Controller {
 		}
 	}
 
-	public function getISO_one($ano, $mes) {
-		$response = $this->Model_ISO->getISO_one($ano, $mes);
+	public function getGroups($ano, $mes) {
+		$response = $this->Model_ISO->getGroups($ano, $mes);
 		echo $response;
 		//$this->saveGroup(json_decode($response));
 	}
 
-	public function getISO_two($ano, $mes, $grupo_id) {
-		$response = $this->Model_ISO->getISO_two($ano, $mes, $grupo_id);
+	public function getCompanies($ano, $mes, $grupo_id) {
+		$response = $this->Model_ISO->getCompanies($ano, $mes, $grupo_id);
 		echo $response;
 		//$this->saveCompany(json_decode($response), $grupo_id);
 	}
 
-	public function getISO_three($ano, $mes, $grupo_id, $empresa_id) {
-		$response = $this->Model_ISO->getISO_three($ano, $mes, $grupo_id, $empresa_id);
+	public function getProcess($ano, $mes, $grupo_id, $empresa_id) {
+		$response = $this->Model_ISO->getProcess($ano, $mes, $grupo_id, $empresa_id);
 		echo $response;
 	}
 }
