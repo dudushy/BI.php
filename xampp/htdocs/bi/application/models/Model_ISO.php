@@ -12,6 +12,55 @@ class Model_ISO extends CI_Model {
 		return $query->result();
 	}
 
+	public function readGroupsByYear($ano) {
+		$query = $this->db->query("SELECT * FROM tb_iso_groups WHERE year = " . $ano);
+		return $query->result();
+	}
+
+	public function readGroupsByYearAndMonth($ano, $mes) {
+		$query = $this->db->query("SELECT * FROM tb_iso_groups WHERE year = " . $ano . " AND month = " . $mes);
+		return $query->result();
+	}
+
+	public function createGroupsByYear($ano){
+		for ($mes = 1; $mes < 13; $mes++){
+			$token = json_decode(file_get_contents("ignore/help.json"), true)['profile']['token'];
+
+			$url = json_decode(file_get_contents("ignore/help.json"), true)['api_url']['iso_groups'];
+			$cadastro_id = json_decode(file_get_contents("ignore/help.json"), true)['profile']['id'];
+
+			$finalUrl = $url . "?cadastro_id=" . $cadastro_id . "&ano=" . $ano . "&mes=" . $mes;
+
+			$ch = curl_init();
+
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+			curl_setopt($ch, CURLOPT_URL, $finalUrl);
+			curl_setopt($ch, CURLOPT_TIMEOUT, 80);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+				'Content-Type: application/json',
+				'Authorization: Bearer ' . $token
+			));
+			
+			$result = json_decode(curl_exec($ch));
+			curl_close($ch);
+			
+			foreach($result->data as $iso_groups){
+				$arrayData = array(
+					'grp_id' => $iso_groups->id_grupo,
+					'grp_name' => $iso_groups->nome_grupo,
+					'total_companies' => $iso_groups->total_empresas,
+					'value' => $iso_groups->valor,
+					'year' => $ano,
+					'month' => $mes
+				);
+				
+				$this->db->insert('tb_iso_groups', $arrayData);
+			}
+		}
+	}
+
 	public function createGroups($ano, $mes){
 		$token = json_decode(file_get_contents("ignore/help.json"), true)['profile']['token'];
 
@@ -52,6 +101,48 @@ class Model_ISO extends CI_Model {
 	public function readCompanies() {
 		$query = $this->db->query("SELECT * FROM tb_iso_companies");
 		return $query->result();
+	}
+
+	public function createCompaniesByYear($ano){
+		for ($mes = 1; $mes < 13; $mes++){
+			foreach($this->readGroupsByYearAndMonth($ano, $mes) as $group){
+				$token = json_decode(file_get_contents("ignore/help.json"), true)['profile']['token'];
+
+				$url = json_decode(file_get_contents("ignore/help.json"), true)['api_url']['iso_companies'];
+				$cadastro_id = json_decode(file_get_contents("ignore/help.json"), true)['profile']['id'];
+
+				$finalUrl = $url . "?cadastro_id=" . $cadastro_id . "&ano=" . $ano . "&mes=" . $mes . "&grupo_id=" . $group->grp_id;
+
+				$ch = curl_init();
+
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+				curl_setopt($ch, CURLOPT_URL, $finalUrl);
+				curl_setopt($ch, CURLOPT_TIMEOUT, 300);
+				curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+					'Content-Type: application/json',
+					'Authorization: Bearer ' . $token
+				));
+				
+				$result = json_decode(curl_exec($ch));
+				curl_close($ch);
+				
+				foreach($result->data as $iso_companies){
+					$arrayData = array(
+						'com_id' => $iso_companies->empresa_id,
+						'com_name' => $iso_companies->razao_social,
+						'value' => $iso_companies->valor,
+						'grp_id' => $group->grp_id,
+						'year' => $ano,
+						'month' => $mes
+					);
+					
+					$this->db->insert('tb_iso_companies', $arrayData);
+				}
+			}
+			
+		}
 	}
 
 	public function createCompanies($ano, $mes, $grupo_id){
@@ -275,4 +366,6 @@ class Model_ISO extends CI_Model {
 		
 		return $result;
 	}
+
+
 }

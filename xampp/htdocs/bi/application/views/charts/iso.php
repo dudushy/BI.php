@@ -20,19 +20,16 @@
 			#iso_groups {
 				width: 50%;
 				height: 400px;
-				float: left;
 			}
 
 			#iso_companies {
 				width: 25%;
 				height: 400px;
-				float: left;
 			}
 
 			#iso_process {
 				width: 50%;
 				height: 400px;
-				float: left;
 			}
 
 			/* .footer {
@@ -680,14 +677,10 @@
 					<div id="iso_process"></div>
 				</div>
 			</div>
-
-			<footer>
-				<hr style="border-top: 10px solid">
-
-				<center>
-					&copy; 2022 | All Rights Reserved
-				</center>
-			</footer>
+		</div>
+		<div>
+			<hr style="border-top: 10px solid">
+			&copy; 2022 | All Rights Reserved
 		</div>
 	</body>
 </html>

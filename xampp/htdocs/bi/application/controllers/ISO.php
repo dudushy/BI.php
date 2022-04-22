@@ -8,10 +8,22 @@ class ISO extends CI_Controller {
 		$this->load->model('Model_ISO');
 	}
 
+	public function test($ano){
+		$this->Model_ISO->createCompaniesByYear($ano);
+	}
+
 	public function index() {
 		$data['content'] = 'charts/index';
 
 		$this->load->view('charts/iso', $data);
+	}
+
+	public function readGroupsByYear($ano){
+		var_dump($this->Model_ISO->readGroupsByYear($ano));
+	}
+
+	public function readGroupsByYearAndMonth($ano, $mes){
+		var_dump($this->Model_ISO->readGroupsByYearAndMonth($ano, $mes));
 	}
 
 	public function readAll(){
