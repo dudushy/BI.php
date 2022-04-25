@@ -20,6 +20,10 @@
 	<hr>
 
 	<form method="POST" action="<?php echo base_url('iso/chart'); ?>">
-		<button type="submit" class="btn btn-primary">Charts</button>
+		<button type="submit" class="btn btn-primary">ISO</button>
+	</form>
+
+	<form method="POST" action="<?php echo base_url('iso/chart'); ?>">
+		<button type="submit" class="btn btn-primary">ISO kpi</button>
 	</form>
 </div>

@@ -9,8 +9,17 @@ class KPI extends CI_Controller {
 	}
 
 	public function index() {
-		// $data['content'] = 'graph/index';
+		$data['content'] = 'charts/index';
 
-		// $this->load->view('model', $data);
+		$this->load->view('charts/kpi', $data);
+	}
+
+	public function get($com_id, $ano) {
+		$response = $this->Model_KPI->get($com_id, $ano);
+		echo $response;
+	}
+
+	public function create($ano, $mes){
+		$this->Model_KPI->create($ano, $mes);
 	}
 }

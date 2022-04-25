@@ -31,10 +31,6 @@
 				width: 50%;
 				height: 400px;
 			}
-
-			/* .footer {
-				float: below;
-			} */
 		</style>
 
 		<!-- Resources -->

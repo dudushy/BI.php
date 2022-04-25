@@ -9,7 +9,7 @@ class ISO extends CI_Controller {
 	}
 
 	public function test($ano){
-		$this->Model_ISO->createCompaniesByYear($ano);
+		$this->Model_ISO->createProcessByYear($ano);
 	}
 
 	public function index() {
