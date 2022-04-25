@@ -25,6 +25,13 @@ CREATE TABLE `tb_company` (
   `grp_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Indexes for table `tb_company`
+--
+
+ALTER TABLE `tb_company`
+  ADD PRIMARY KEY (`com_id`);
+
 -- --------------------------------------------------------
 
 --
@@ -35,6 +42,13 @@ CREATE TABLE `tb_group` (
   `grp_id` int(11) NOT NULL,
   `grp_name` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for table `tb_group`
+--
+
+ALTER TABLE `tb_group`
+  ADD PRIMARY KEY (`grp_id`);
 
 -- --------------------------------------------------------
 
@@ -83,38 +97,68 @@ CREATE TABLE `tb_iso_process` (
   `month` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Indexes for table `tb_company`
---
-
-ALTER TABLE `tb_company`
-  ADD PRIMARY KEY (`com_id`);
+-- --------------------------------------------------------
 
 --
--- Indexes for table `tb_group`
+-- Table structure for table `tb_kpi`
 --
 
-ALTER TABLE `tb_group`
-  ADD PRIMARY KEY (`grp_id`);
+CREATE TABLE `tb_kpi` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `com_id` int(11) NOT NULL,
+  `year` varchar(5) NOT NULL,
+  `month` varchar(3) NOT NULL,
+  `tus` varchar(400) NOT NULL,
+  `m3_water` varchar(400) NOT NULL,
+  `m3_well` varchar(400) NOT NULL,
+  `m3_cistern` varchar(400) NOT NULL,
+  `m3_water_total` varchar(400) NOT NULL,
+  `m3_water_tus` varchar(400) NOT NULL,
+  `m3_well_tus` varchar(400) NOT NULL,
+  `m3_cistern_tus` varchar(400) NOT NULL,
+  `m3_water_total_tus` varchar(400) NOT NULL,
+  `value_water` varchar(400) NOT NULL,
+  `kwh_energy` varchar(400) NOT NULL,
+  `kwh_energy_tus` varchar(400) NOT NULL,
+  `value_energy` varchar(400) NOT NULL,
+  `total_recyclable` varchar(400) NOT NULL,
+  `total_contaminated` varchar(400) NOT NULL,
+  `total_recyclable_tus` varchar(400) NOT NULL,
+  `total_contaminated_tus` varchar(400) NOT NULL,
+  `badgoal_m3_water_total` varchar(400) NOT NULL,
+  `badgoal_m3_water_total_tus` varchar(400) NOT NULL,
+  `badgoal_kwh_energy` varchar(400) NOT NULL,
+  `badgoal_kwh_energy_tus` varchar(400) NOT NULL,
+  `badgoal_recyclable_tus` varchar(400) NOT NULL,
+  `badgoal_total_contaminated_tus` varchar(400) NOT NULL,
+  `delayed_tus` varchar(400) NOT NULL,
+  `delayed_m3_water` varchar(400) NOT NULL,
+  `delayed_m3_well` varchar(400) NOT NULL,
+  `delayed_m3_cistern` varchar(400) NOT NULL,
+  `delayed_value_water` varchar(400) NOT NULL,
+  `delayed_kwh_energy` varchar(400) NOT NULL,
+  `delayed_value_energy` varchar(400) NOT NULL,
+  `delayed_total_recyclable` varchar(400) NOT NULL,
+  `delayed_total_contaminated` varchar(400) NOT NULL,
+  `unlocked` varchar(400) NOT NULL,
+  `obs` varchar(1000) NOT NULL,
+  `iso14001` varchar(400) NOT NULL,
+  `iso14001_validate_date` varchar(400) NOT NULL,
+  `iso14001_file` varchar(400) NOT NULL,
+  `iso14001_file_path` varchar(1000) NOT NULL,
+  `inserted` varchar(400) NOT NULL,
+  `water_file` varchar(400) NOT NULL,
+  `water_file_path` varchar(1000) NOT NULL,
+  `energy_file` varchar(400) NOT NULL,
+  `energy_file_path` varchar(1000) NOT NULL,
+  `me_goal_water` varchar(400) NOT NULL,
+  `me_goal_energy` varchar(400) NOT NULL,
+  `current` varchar(400) NOT NULL,
+  `permission` varchar(400) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Indexes for table `tb_iso_companies`
+-- Indexes for table `tb_kpi`
 --
-
-ALTER TABLE `tb_iso_companies`
-  ADD PRIMARY KEY (`com_id`);
-
---
--- Indexes for table `tb_iso_groups`
---
-
-ALTER TABLE `tb_iso_groups`
-  ADD PRIMARY KEY (`grp_id`);
-
---
--- Indexes for table `tb_iso_process`
---
-
-ALTER TABLE `tb_iso_process`
-  ADD PRIMARY KEY (`prc_id`);
-COMMIT;
+ALTER TABLE `tb_kpi`
+  ADD PRIMARY KEY (`id`);
