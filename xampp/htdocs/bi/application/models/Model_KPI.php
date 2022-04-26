@@ -32,6 +32,37 @@ class Model_KPI extends CI_Model {
 		return $query->result();
 	}
 
+	public function getAll($ano) {
+		$resultArray = array();
+		foreach ($this->readCompanies() as $company) {
+			$token = json_decode(file_get_contents("ignore/help.json"), true)['profile']['token'];
+
+			$url = json_decode(file_get_contents("ignore/help.json"), true)['api_url']['kpi'];
+			$cadastro_id = json_decode(file_get_contents("ignore/help.json"), true)['profile']['id2'];
+
+			$finalUrl = $url . $cadastro_id . "/" . $company->com_id . "/" . $ano . ".json";
+
+			$ch = curl_init();
+
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+			curl_setopt($ch, CURLOPT_URL, $finalUrl);
+			curl_setopt($ch, CURLOPT_TIMEOUT, 80);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+				'Content-Type: application/json',
+				'Authorization: Bearer ' . $token
+			));
+			
+			$result = curl_exec($ch);
+			curl_close($ch);
+			
+			array_push($resultArray, $result);
+		}
+		
+		return $resultArray;
+	}
+
 	public function get($com_id, $ano) {
 		$token = json_decode(file_get_contents("ignore/help.json"), true)['profile']['token'];
 

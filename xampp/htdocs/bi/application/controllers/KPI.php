@@ -14,6 +14,11 @@ class KPI extends CI_Controller {
 		$this->load->view('charts/kpi', $data);
 	}
 
+	public function getAll($ano) {
+		$response = $this->Model_KPI->getAll($ano);
+		echo $response;
+	}
+
 	public function get($com_id, $ano) {
 		$response = $this->Model_KPI->get($com_id, $ano);
 		echo $response;
