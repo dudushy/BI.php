@@ -56,36 +56,6 @@
 					Object.keys(obj).forEach(function(item) {
 						console.log(obj[item]);
 
-						var dataTest = [
-							{
-								year: "2017",
-								income: 23.5,
-								expenses: 18.1
-							},
-							{
-								year: "2018",
-								income: 26.2,
-								expenses: 22.8
-							},
-							{
-								year: "2019",
-								income: 30.1,
-								expenses: 23.9
-							},
-							{
-								year: "2020",
-								income: 29.5,
-								expenses: 25.1
-							},
-							{
-								year: "2021",
-								income: 24.6,
-								expenses: 25
-							}
-						];
-
-						console.log(dataTest);
-
 						chart_data.push({
 							month: item,
 							tus: obj[item]['tus'],
@@ -355,10 +325,8 @@
 		<div id="container">
 			<div class="col-md-12">
 				<div id="filters">
-					<label for="date" class="form-label">
-						<center>
-							<b>Data</b>
-						</center>
+					<label for="date" class="form-label" style="text-align: center;">
+						<b>Data</b>
 					</label>
 					<input type="number" class="form-control" id="ano" name="ano" min="2018" value="2022">
 					<select id="select-company" class="form-select">

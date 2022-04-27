@@ -625,10 +625,8 @@
 		<div id="container">
 			<div class="col-md-12">
 				<div id="filters">
-					<label for="date" class="form-label">
-						<center>
-							<b>Data</b>
-						</center>
+					<label for="date" class="form-label" style="text-align: center;">
+						<b>Data</b>
 					</label>
 					<input type="month" class="form-control" id="date" name="date" min="2018-03" value="2022-02">
 					<button class="btn btn-primary" onclick="generateGroups()">
@@ -636,10 +634,8 @@
 					</button>
 					<br><br>
 
-					<label for="grupo_id" class="form-label">
-						<center>
-							<b>Grupo</b>
-						</center>
+					<label for="grupo_id" class="form-label" style="text-align: center;">
+						<b>Grupo</b>
 					</label>
 					<select id="select-groups" class="form-select" disabled>
 						<option value="">--</option>
@@ -649,10 +645,8 @@
 					</button>
 					<br><br>
 
-					<label for="empresa_id" class="form-label">
-						<center>
-							<b>Empresa</b>
-						</center>
+					<label for="empresa_id" class="form-label" style="text-align: center;">
+						<b>Empresa</b>
 					</label>
 					<select id="select-companies" class="form-select" disabled>
 						<option value="">--</option>

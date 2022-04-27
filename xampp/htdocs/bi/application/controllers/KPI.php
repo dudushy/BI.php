@@ -24,7 +24,7 @@ class KPI extends CI_Controller {
 		echo $response;
 	}
 
-	public function create($ano, $mes){
-		$this->Model_KPI->create($ano, $mes);
+	public function create($com_id, $ano){
+		$this->Model_KPI->create($com_id, $ano);
 	}
 }
