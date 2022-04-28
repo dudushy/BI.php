@@ -10,7 +10,7 @@ class Group extends CI_Controller {
 
 	public function index() {
 		$data['content'] = 'index';
-		$data['groups'] = $this->Model_Group->readGroup();
+		$data['groups'] = $this->Model_Group->read();
 
 		$this->load->view('model', $data);
 		//$this->Model_Group->createGroup();

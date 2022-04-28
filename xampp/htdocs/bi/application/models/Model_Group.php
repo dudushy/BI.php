@@ -7,12 +7,17 @@ class Model_Group extends CI_Model {
 		$this->load->database();
 	}
 
-	public function readGroup() {
+	public function read() {
 		$query = $this->db->query("SELECT * FROM tb_group");
 		return $query->result();
 	}
 
-	public function createGroup(){
+	public function readByName() {
+		$query = $this->db->query("SELECT * FROM tb_company ORDER BY grp_name ASC");
+		return $query->result();
+	}
+
+	public function create(){
 		$url = json_decode(file_get_contents("ignore/help.json"), true);
 		$url = $url['api_url']['groups'];
 

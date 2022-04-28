@@ -7,12 +7,17 @@ class Model_Company extends CI_Model {
 		$this->load->database();
 	}
 
-	public function readCompany() {
+	public function read() {
 		$query = $this->db->query("SELECT * FROM tb_company");
 		return $query->result();
 	}
 
-	public function createCompany(){
+	public function readByName() {
+		$query = $this->db->query("SELECT * FROM tb_company ORDER BY com_name ASC");
+		return $query->result();
+	}
+
+	public function create(){
 		$url = json_decode(file_get_contents("ignore/help.json"), true);
 		$url = $url['api_url']['companies'];
 

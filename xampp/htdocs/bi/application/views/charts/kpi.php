@@ -108,16 +108,14 @@
 						});
 
 						console.log(chart_data);
-
-						var div = document.querySelector('#charts');
-						var kpi = document.createElement('div');
-						kpi.id = "kpi";
-						kpi.style.width = "100%";
-						kpi.style.height = "1000px";
-						div.appendChild(kpi);
-
-						
 					});
+
+					var div = document.querySelector('#charts');
+					var kpi = document.createElement('div');
+					kpi.id = "kpi";
+					kpi.style.width = "100%";
+					kpi.style.height = "1000px";
+					div.appendChild(kpi);
 
 					am5.ready(function() {
 						// Create root element
@@ -323,17 +321,22 @@
 			</nav>
 		</header>
 		<div id="container">
+			<h2>KPI</h2>
+			<br>
+
 			<div class="col-md-12">
 				<div id="filters">
 					<label for="date" class="form-label" style="text-align: center;">
 						<b>Data</b>
 					</label>
 					<input type="number" class="form-control" id="ano" name="ano" min="2018" value="2022">
+
 					<select id="select-company" class="form-select">
-						<?php foreach ($this->Model_KPI->readCompaniesByName($ano) as $company){ ?>
+						<?php foreach ($this->Model_KPI->readCompaniesByName() as $company){ ?>
 							<option value="<?php echo $company->com_id ?>"><?php echo $company->com_name ?></option>
 						<?php } ?>
 					</select>
+
 					<button class="btn btn-primary" onclick="generateKpi()">
 						Gerar KPI
 					</button>

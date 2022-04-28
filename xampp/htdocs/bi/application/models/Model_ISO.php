@@ -277,69 +277,6 @@ class Model_ISO extends CI_Model {
 		}
 	}
 
-	public function getToken($username, $password) {
-		/* API URL */
-		$url = json_decode(file_get_contents("ignore/help.json"), true)['api_url']['auth'];
-
-		/* Init cURL resource */
-		$ch = curl_init($url);
-
-		/* Array Parameter Data */
-		$data = array(
-			'username' => $username,
-			'password' => $password
-		);
-		$data = json_encode($data);
-
-		/* pass encoded JSON string to the POST fields */
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-		/* set the content type json */
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-			'Content-Type: application/json'
-		));
-
-		/* set return type json */
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-		$result = json_decode(curl_exec($ch), true);
-		curl_close($ch);
-
-		return $result;
-	}
-
-	public function login($username, $password, $token) {
-		/* API URL */
-		$url = json_decode(file_get_contents("ignore/help.json"), true)['api_url']['login'];
-
-		/* Init cURL resource */
-		$ch = curl_init($url);
-
-		/* Array Parameter Data */
-		$data = array(
-			'username' => $username,
-			'password' => $password
-		);
-		$data = json_encode($data);
-
-		/* pass encoded JSON string to the POST fields */
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-		/* set the content type json */
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-			'Content-Type: application/json',
-			'Authorization: Bearer ' . $token
-		));
-
-		/* set return type json */
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-		$result = json_decode(curl_exec($ch), true);
-		curl_close($ch);
-
-		return $result;
-	}
-
 	public function getGroups($ano, $mes) {
 		$token = json_decode(file_get_contents("ignore/help.json"), true)['profile']['token'];
 
