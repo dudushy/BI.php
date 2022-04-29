@@ -1,6 +1,6 @@
 <?php
 
-class Model_Home extends CI_Model {
+class Model_Dashboard extends CI_Model {
 
 	function __construct() {
 		parent::__construct();

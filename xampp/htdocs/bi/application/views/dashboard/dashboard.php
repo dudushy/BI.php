@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>BI.php</title>
+		<title>Dashboard</title>
 		<link rel="stylesheet" href="<?php echo base_url('public/css/bootstrap.css') ?>"/>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 		<script src="<?php echo base_url('public/js/bootstrap.js')?>"></script>
@@ -38,8 +38,9 @@
 		<script>
 			$(document).ready(function () {
 				// document.getElementById("date").max = (new Date().getFullYear()) + "-" + (new Date().getMonth());
+				
 				checkSelects();
-				checkGroupsAndCompanies();
+				// checkGroupsAndCompanies();
 			});
 
 			function checkGroupsAndCompanies() {
@@ -47,13 +48,19 @@
 					loadGroups();
 
 					if (document.getElementById("select-companies").length == 1) {
-						var childs = document.getElementById("select-groups").childNodes;
-						console.log(childs);
-						for (child in childs) {
-							//loadCompanies(child.value);
-							console.log(childs[child].value);
-							console.log("a");
-						}
+						var childs = document.getElementById("select-groups").options;
+						// console.log(childs);
+
+						Object.keys(childs).forEach(function(item) {
+							console.log(childs[item]);
+
+							console.log(childs[item].innerHTML);
+							console.log(childs[item].attributes.value.value);
+
+							if (childs[item].innerHTML != "---" & childs[item].attributes.value.value != "empty") {
+								loadCompanies(childs[item].attributes.value.value);
+							}
+						});
 					} else {
 						console.log("|loadCompanies| loaded.");
 					}
@@ -61,13 +68,19 @@
 					console.log("|loadGroups| loaded.");
 
 					if (document.getElementById("select-companies").length == 1) {
-						var childs = document.getElementById("select-groups").childNodes;
-						console.log(childs);
-						for (child in childs) {
-							//loadCompanies(child.value);
-							console.log(childs[child].value);
-							console.log("a");
-						}
+						var childs = document.getElementById("select-groups").options;
+						// console.log(childs);
+
+						Object.keys(childs).forEach(function(item) {
+							console.log(childs[item]);
+
+							console.log(childs[item].innerHTML);
+							console.log(childs[item].attributes.value.value);
+
+							if (childs[item].innerHTML != "---" & childs[item].attributes.value.value != "empty") {
+								loadCompanies(childs[item].attributes.value.value);
+							}
+						});
 					} else {
 						console.log("|loadCompanies| loaded.");
 					}
@@ -1282,7 +1295,7 @@
 			</nav>
 		</header>
 		<div id="container">
-			<h2>Home</h2>
+			<h2>Dashboard</h2>
 			<br>
 			
 			<div class="col-md-12">
@@ -1297,6 +1310,10 @@
 					</label>
 					<select id="select-groups" class="form-select" onclick="checkSelects()" disabled>
 						<option value="empty">---</option>
+
+						<?php foreach ($groups as $group){ ?>
+							<option value="<?php echo $group->grp_id ?>"><?php echo $group->grp_name ?></option>
+						<?php } ?>
 					</select>
 
 					<label for="select-companies" class="form-label" style="text-align: center;">
@@ -1304,6 +1321,10 @@
 					</label>
 					<select id="select-companies" class="form-select" onclick="checkSelects()" disabled>
 						<option value="empty">---</option>
+
+						<?php foreach ($companies as $company){ ?>
+							<option value="<?php echo $company->com_id ?>"><?php echo $company->com_name ?></option>
+						<?php } ?>
 					</select>
 					
 					<button id="btnGenerate" class="btn btn-primary" onclick="generateAll()">

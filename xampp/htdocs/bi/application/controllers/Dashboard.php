@@ -1,15 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Home extends CI_Controller {
+class Dashboard extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
-		$this->load->model('Model_Home');
+		$this->load->model('Model_Dashboard');
 	}
 
 	public function index() {
-		//! $this->load->view('home/login');
+		//! $this->load->view('dashboard/login');
 
 		$queryGroups = $this->db->query("SELECT * FROM tb_group ORDER BY grp_name ASC");
 		$queryCompanies = $this->db->query("SELECT * FROM tb_company ORDER BY com_name ASC");
@@ -17,7 +17,7 @@ class Home extends CI_Controller {
 		$data['auth'] = "pulado";
 		$data['groups'] = $queryGroups->result();
 		$data['companies'] = $queryCompanies->result();
-		$this->load->view('home/charts', $data);
+		$this->load->view('dashboard/dashboard', $data);
 	}
 
 	public function auth() {
@@ -29,7 +29,7 @@ class Home extends CI_Controller {
 
 			echo "username: " . $username . "<br>password: " . $password . "<br>";
 
-			$jsonToken = $this->Model_Home->getToken($username, $password);
+			$jsonToken = $this->Model_Dashboard->getToken($username, $password);
 			echo "<hr>jsonToken:<br><br>";
 			var_dump($jsonToken);
 
@@ -40,7 +40,7 @@ class Home extends CI_Controller {
 				echo "<hr>jsonToken[data]:<br><br>";
 				var_dump($jsonToken['data']);
 
-				$data['auth'] = $this->Model_Home->login($username, $password, $jsonToken['data']['token']);
+				$data['auth'] = $this->Model_Dashboard->login($username, $password, $jsonToken['data']['token']);
 			} else {
 				$data['auth'] = "fail";
 			}
@@ -48,7 +48,7 @@ class Home extends CI_Controller {
 			echo "<hr>data[auth]:<br><br>";
 			var_dump($data['auth']);
 
-			$this->load->view('home/home', $data);
+			$this->load->view('Dashboard/charts', $data);
 		}
 	}
 }
