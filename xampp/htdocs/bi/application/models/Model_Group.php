@@ -13,7 +13,7 @@ class Model_Group extends CI_Model {
 	}
 
 	public function readByName() {
-		$query = $this->db->query("SELECT * FROM tb_company ORDER BY grp_name ASC");
+		$query = $this->db->query("SELECT * FROM tb_group ORDER BY grp_name ASC");
 		return $query->result();
 	}
 

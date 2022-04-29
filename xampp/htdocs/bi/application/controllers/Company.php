@@ -10,17 +10,27 @@ class Company extends CI_Controller {
 
 	public function index() {
 		$data['content'] = 'index';
-		$data['companies'] = $this->Model_Company->readCompany();
+		$data['companies'] = $this->Model_Company->read();
 
 		$this->load->view('model', $data);
-		//$this->Model_Company->createCompany();
 	}
 
-	public function create(){
-		$this->Model_Company->createCompany();
+	public function create($grupo_id){
+		$this->Model_Company->create($grupo_id);
+		echo "companies created.";
 	}
 
 	public function read(){
-		var_dump($this->Model_Company->readCompany());
+		var_dump($this->Model_Company->read());
+	}
+
+	public function get() {
+		$response = $this->Model_Company->readByName();
+		echo json_encode($response);
+	}
+
+	public function getByGrpId($grupo_id) {
+		$response = $this->Model_Company->readByGrpId($grupo_id);
+		echo json_encode($response);
 	}
 }

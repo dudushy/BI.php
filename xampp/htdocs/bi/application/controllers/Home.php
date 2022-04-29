@@ -17,7 +17,7 @@ class Home extends CI_Controller {
 		$data['auth'] = "pulado";
 		$data['groups'] = $queryGroups->result();
 		$data['companies'] = $queryCompanies->result();
-		$this->load->view('home/home', $data);
+		$this->load->view('home/charts', $data);
 	}
 
 	public function auth() {

@@ -41,9 +41,7 @@
 		</header>
 		<div id="container">
 			<div class="col-md-12">
-				<?php
-				$this->load->view($content);
-				?>
+				<?php $this->load->view($content); ?>
 			</div>
 		</div>
 		<footer style="text-align: center;">

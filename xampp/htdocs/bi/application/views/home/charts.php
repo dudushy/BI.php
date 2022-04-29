@@ -6,8 +6,10 @@
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 		<script src="<?php echo base_url('public/js/bootstrap.js')?>"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+		<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+		<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+		<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 
-		<!-- Styles -->
 		<style>
 			/* #filters {
 				float: left;
@@ -33,30 +35,113 @@
 			}
 		</style>
 
-		<!-- Resources -->
-		<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-
-		<!-- Chart code -->
 		<script>
 			$(document).ready(function () {
 				// document.getElementById("date").max = (new Date().getFullYear()) + "-" + (new Date().getMonth());
+				checkSelects();
+				checkGroupsAndCompanies();
 			});
 
-			function sleep(ms) {
-				return new Promise(
-					resolve => setTimeout(resolve, ms)
-				);
+			function checkGroupsAndCompanies() {
+				if (document.getElementById("select-groups").length == 1) {
+					loadGroups();
+
+					if (document.getElementById("select-companies").length == 1) {
+						var childs = document.getElementById("select-groups").childNodes;
+						console.log(childs);
+						for (child in childs) {
+							//loadCompanies(child.value);
+							console.log(childs[child].value);
+							console.log("a");
+						}
+					} else {
+						console.log("|loadCompanies| loaded.");
+					}
+				} else {
+					console.log("|loadGroups| loaded.");
+
+					if (document.getElementById("select-companies").length == 1) {
+						var childs = document.getElementById("select-groups").childNodes;
+						console.log(childs);
+						for (child in childs) {
+							//loadCompanies(child.value);
+							console.log(childs[child].value);
+							console.log("a");
+						}
+					} else {
+						console.log("|loadCompanies| loaded.");
+					}
+				}
 			}
 
-			async function generateAll(){
+			async function checkSelects() {
+				if (document.getElementById("date").value != ""){
+					document.getElementById("select-groups").disabled = false;
+				} else {
+					document.getElementById("select-groups").disabled = true;
+				}
+
+				if (document.getElementById("select-groups").value != "empty"){
+						document.getElementById("select-companies").disabled = false;
+				} else {
+					document.getElementById("select-companies").disabled = true;
+				}
+			}
+
+			function generateAll(){
 				generateIso();
 				generateKpi();
 				generateDk();
 			}
 
-			async function generateKpi() {
+			function loadGroups(){
+				try {
+					console.log("|loadGroups| loading...");
+
+					$.post('<?php echo base_url(); ?>Group/create/', function (data) {})
+
+					$.post('<?php echo base_url(); ?>Group/get/', function (data) {
+						var data = JSON.parse(data);
+						
+						Object.keys(data).forEach(function(item) {
+							var select = document.querySelector('#select-groups');
+							let option = document.createElement('option');
+							option.value = data[item]['grp_id'];
+							option.innerHTML = data[item]['grp_name'];
+							select.appendChild(option);
+						});
+
+						console.log("|loadGroups| loaded.");
+					})
+				} catch (error) {
+					console.log("|loadGroups| error: " + error);
+				}
+			}
+
+			function loadCompanies(grupo_id){
+				try {
+					console.log("|loadCompanies| loading...");
+
+					$.post('<?php echo base_url(); ?>Company/create/' + grupo_id, function (data) {})
+
+					$.post('<?php echo base_url(); ?>Company/getByGrpId/' + grupo_id, function (data) {
+						var data = JSON.parse(data);
+
+						Object.keys(data).forEach(function(item) {
+							var select = document.querySelector('#select-companies');
+							let option = document.createElement('option');
+							option.value = data[item]['com_id'];
+							option.innerHTML = data[item]['com_name'];
+							select.appendChild(option);
+						});
+						console.log("|loadCompanies| loaded.");
+					})
+				} catch (error) {
+					console.log("|loadCompanies| error: " + error);
+				}
+			}
+
+			function generateKpi() {
 				var div = document.querySelector('#charts');
 				var kpi = document.createElement('div');
 				kpi.id = "kpi";
@@ -303,19 +388,19 @@
 				})
 			}
 
-			async function generateDk() {
+			function generateDk() {
 				generateDkCompanyGroups();
 				generateDkCompany();
 				generateDkChapter();
 			}
 
-			async function generateIso() {
+			function generateIso() {
 				generateIsoGroups();
 				generateIsoCompanies();
 				generateIsoProcess();
 			}
 
-			async function generateIsoGroups() {
+			function generateIsoGroups() {
 				var div = document.querySelector('#charts');
 				var iso = document.createElement('div');
 				iso.id = "iso_groups";
@@ -486,7 +571,7 @@
 				});
 			}
 
-			async function generateIsoCompanies() {
+			function generateIsoCompanies() {
 				var div = document.querySelector('#charts');
 				var iso = document.createElement('div');
 				iso.id = "iso_companies";
@@ -656,7 +741,7 @@
 				});
 			}
 
-			async function generateIsoProcess() {
+			function generateIsoProcess() {
 				var div = document.querySelector('#charts');
 				var iso = document.createElement('div');
 				iso.id = "iso_process";
@@ -829,7 +914,7 @@
 				});
 			}
 
-			async function generateDkCompanyGroups() {
+			function generateDkCompanyGroups() {
 				var div = document.querySelector('#charts');
 				var dk = document.createElement('div');
 				dk.id = "dk_companyGroups";
@@ -990,7 +1075,7 @@
 				})
 			}
 
-			async function generateDkCompany() {
+			function generateDkCompany() {
 				var div = document.querySelector('#charts');
 				var dk = document.createElement('div');
 				dk.id = "dk_company";
@@ -1151,7 +1236,7 @@
 				})
 			}
 
-			async function generateDkChapter() {
+			function generateDkChapter() {
 				var period = document.getElementById("date").value;
 				var parent_item_id = document.getElementById("select-companies").value;
 				var area_id = document.getElementById("select-groups").value;
@@ -1205,28 +1290,24 @@
 					<label for="date" class="form-label" style="text-align: center;">
 						<b>Data</b>
 					</label>
-					<input type="month" class="form-control" id="date" name="date" min="2018-03" value="2022-02">
+					<input type="month" class="form-control" id="date" name="date" min="2018-03" value="2022-02" onclick="checkSelects()">
 
 					<label for="select-groups" class="form-label" style="text-align: center;">
 						<b>Grupo</b>
 					</label>
-					<select id="select-groups" class="form-select">
-						<?php foreach ($groups as $group){ ?>
-							<option value="<?php echo $group->grp_id ?>"><?php echo $group->grp_name ?></option>
-						<?php } ?>
+					<select id="select-groups" class="form-select" onclick="checkSelects()" disabled>
+						<option value="empty">---</option>
 					</select>
 
 					<label for="select-companies" class="form-label" style="text-align: center;">
 						<b>Empresa</b>
 					</label>
-					<select id="select-companies" class="form-select">
-						<?php foreach ($companies as $company){ ?>
-							<option value="<?php echo $company->com_id ?>"><?php echo $company->com_name ?></option>
-						<?php } ?>
+					<select id="select-companies" class="form-select" onclick="checkSelects()" disabled>
+						<option value="empty">---</option>
 					</select>
 					
 					<button id="btnGenerate" class="btn btn-primary" onclick="generateAll()">
-						Gerar
+						Gerar Gráficos
 					</button>
 					<br><br>
 				</div>

@@ -6,8 +6,10 @@
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 		<script src="<?php echo base_url('public/js/bootstrap.js')?>"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+		<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+		<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+		<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 
-		<!-- Styles -->
 		<style>
 			/* #filters {
 				float: left;
@@ -33,12 +35,6 @@
 			}
 		</style>
 
-		<!-- Resources -->
-		<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-		<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-
-		<!-- Chart code -->
 		<script>
 			$(document).ready(function () {
 				//test()

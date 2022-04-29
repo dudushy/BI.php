@@ -17,7 +17,12 @@ class Model_Company extends CI_Model {
 		return $query->result();
 	}
 
-	public function create(){
+	public function readByGrpId($grupo_id) {
+		$query = $this->db->query("SELECT * FROM tb_company WHERE grp_id = " . $grupo_id);
+		return $query->result();
+	}
+
+	public function create($grupo_id){
 		$url = json_decode(file_get_contents("ignore/help.json"), true);
 		$url = $url['api_url']['companies'];
 
@@ -43,7 +48,8 @@ class Model_Company extends CI_Model {
 			$arrayData = array(
 				'com_id' => $company->value,
 				'com_name' => $company->title,
-				'com_cnpj' => $company->cnpj
+				'com_cnpj' => $company->cnpj,
+				'grp_id' => $grupo_id
 			);
 			
 			$this->db->insert('tb_company', $arrayData);

@@ -13,14 +13,19 @@ class Group extends CI_Controller {
 		$data['groups'] = $this->Model_Group->read();
 
 		$this->load->view('model', $data);
-		//$this->Model_Group->createGroup();
 	}
 
 	public function create(){
-		$this->Model_Group->createGroup();
+		$this->Model_Group->create();
+		echo "groups created.";
 	}
 
 	public function read(){
-		var_dump($this->Model_Group->readGroup());
+		var_dump($this->Model_Group->read());
+	}
+
+	public function get() {
+		$response = $this->Model_Group->readByName();
+		echo json_encode($response);
 	}
 }
