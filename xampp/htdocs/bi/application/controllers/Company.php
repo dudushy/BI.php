@@ -15,6 +15,10 @@ class Company extends CI_Controller {
 		$this->load->view('model', $data);
 	}
 
+	public function createAll() {
+		$this->Model_Company->createAll();
+	}
+
 	public function create($grupo_id){
 		$this->Model_Company->create($grupo_id);
 		echo "companies created.";
