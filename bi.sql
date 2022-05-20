@@ -162,3 +162,6 @@ CREATE TABLE `tb_kpi` (
 --
 ALTER TABLE `tb_kpi`
   ADD PRIMARY KEY (`id`);
+
+-- changes
+ALTER TABLE `tb_company` ADD `int_id` INT NOT NULL AUTO_INCREMENT FIRST, ADD `com_id` INT NOT NULL AFTER `int_id`, ADD PRIMARY KEY (`int_id`);
