@@ -9,9 +9,11 @@ class Model_Company extends CI_Model {
 
 	public function createAll() {
 		$query = $this->db->query("SELECT * FROM tb_group");
+
 		foreach ($query->result() as $group) {
 			$url = json_decode(file_get_contents("ignore/help.json"), true);
-			$url = $url['api_url']['companies'];
+			$url = $url['api_url']['companies'] . $group->grp_id;
+			echo "URL: " . $url . "<br><br>";
 
 			$token = json_decode(file_get_contents("ignore/help.json"), true);
 			$token = $token['profile']['token'];
@@ -29,6 +31,7 @@ class Model_Company extends CI_Model {
 			));
 			
 			$result = json_decode(curl_exec($ch));
+
 			curl_close($ch);
 			
 			foreach($result->data->companies as $company){
@@ -38,10 +41,17 @@ class Model_Company extends CI_Model {
 					'com_cnpj' => $company->cnpj,
 					'grp_id' => $group->grp_id
 				);
+
+				var_dump($arrayData);
+				echo "<br><br>";
 				
 				$this->db->insert('tb_company', $arrayData);
 			}
+
+			echo "<hr>";
 		}
+
+		echo "<hr><hr><hr><br>FIM";
 	}
 
 	public function read() {
